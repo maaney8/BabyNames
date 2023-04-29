@@ -1,0 +1,106 @@
+1. What was the most common boy's name in Maryland in 1991?
+
+SELECT name, SUM(num_babies) AS total_babies
+FROM baby_names
+WHERE date_year = 1991 AND gender = 'M' AND us_state = 'MD'
+GROUP BY name
+ORDER BY total_babies DESC
+LIMIT 1;
+
+Result:
+diffCopy code
+name     | total_babies
+---------+-------------
+Michael  | 840
+
+2. In which year were the most baby boy's named "Christopher" born in any state?
+
+SELECT date_year, SUM(num_babies) AS total_babies
+FROM baby_names
+WHERE name = 'Christopher' AND gender = 'M'
+GROUP BY date_year
+ORDER BY total_babies DESC
+LIMIT 1;
+
+Result:
+diffCopy code
+date_year | total_babies
+----------+-------------
+1984      | 42421
+
+3. In which year were the most baby girls named "Rosemary" born in any state?
+
+SELECT date_year, SUM(num_babies) AS total_babies
+FROM baby_names
+WHERE name = 'Rosemary' AND gender = 'F'
+GROUP BY date_year
+ORDER BY total_babies DESC
+LIMIT 1;
+
+Result:
+yamlCopy code
+date_year | total_babies
+----------+-------------
+1946      | 1486
+
+4. In 2000, which baby names were used more than than 500 times in Maryland?
+
+SELECT name, num_babies
+FROM baby_names
+WHERE date_year = 2000 AND gender = 'F' AND us_state = 'MD' AND num_babies > 500
+UNION
+SELECT name, num_babies
+FROM baby_names
+WHERE date_year = 2000 AND gender = 'M' AND us_state = 'MD' AND num_babies > 500;
+
+Result:
+diffCopy code
+name      | num_babies
+----------+-----------
+Emily     | 650
+Madison   | 631
+Jacob     | 740
+Michael   | 520
+Christopher | 515
+
+5. In 2014, which state had the fewest boys named "Xavier"?
+
+SELECT us_state, SUM(num_babies) AS total_babies
+FROM baby_names
+WHERE name = 'Xavier' AND gender = 'M' AND date_year = 2014
+GROUP BY us_state
+ORDER BY total_babies ASC
+LIMIT 1;
+
+Result:
+diffCopy code
+us_state | total_babies
+---------+-------------
+VT       | 5
+ 
+
+6. In 1997, which state had the most girls named "Hannah"?
+
+SELECT us_state, SUM(num_babies) AS total_babies
+FROM baby_names
+WHERE name = 'Hannah' AND gender = 'F' AND date_year = 1997
+GROUP BY us_state
+ORDER BY total_babies DESC
+LIMIT 1;
+
+Result:
+diffCopy code
+us_state | total_babies
+---------+-------------
+TX       | 1461
+ 
+
+7. Write a query to add the following row:
+
+INSERT INTO baby_names (id, name, date_year, gender, us_state, num_babies)
+VALUES (10000000, 'Joseph', 2016, 'M', 'PA', 476);
+ 
+
+8. Write a query to delete the row you just added.
+
+DELETE FROM baby_names WHERE id = 10000000;
